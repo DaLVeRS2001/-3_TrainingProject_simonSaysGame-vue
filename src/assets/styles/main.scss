@@ -1,0 +1,108 @@
+*{
+  box-sizing: border-box;
+}
+
+
+@mixin simonSetting($bg, $br, $bL, $bR, $bB, $bT){
+  background: $bg;
+  border-radius: $br;
+  border-left: $bL;
+  border-right: $bR;
+  border-bottom: $bB;
+  border-top: $bT;
+}
+
+                                                    //GAME
+
+.simon {
+  h1{
+    text-align: center;
+  }
+  .wrapper{
+    display: flex;
+    justify-content: center;
+
+    .game {
+      display: inline-block;
+      position: relative;
+      margin-right: 10px;
+
+
+      .group {
+        display: flex;
+
+        .part {
+          width: 150px;
+          height: 150px;
+          border-width: 0;
+          border-color: #000000;
+          opacity: 45%;
+          &:hover{
+            border-width: 3px;
+          }
+        }
+      }
+    }
+  }
+}
+
+                                                 //MENU
+.menu{
+  margin-left: 10px;
+    .round{
+
+      h3{}
+      button{}
+    }
+  .options{
+
+    .option{
+
+      input{}
+      span{}
+    }
+  }
+}
+
+
+.difficultyLevel{
+  position: absolute;
+  left: 10px;
+  top: 10px;
+
+}
+
+.music{
+  position: absolute;
+  font-weight: bold;
+
+  right: 10px;
+  top: 25px;
+}
+
+                                            //SINGLE SELECTORS
+.one{
+  @include simonSetting(#0000ff, 100% 0 0 0, solid, 0, 0, solid);
+}
+.two{
+  @include simonSetting(#ff0000, 0 100% 0 0, 0, solid, 0, solid);
+}
+.three{
+  @include simonSetting(#ffff00, 0 0 0 100%, solid, 0, solid, 0);
+}
+.four{
+  @include simonSetting(#168116, 0 0 100% 0, 0, solid, solid, 0);
+}
+
+.backShadow{
+  position: absolute;
+  z-index: -1;
+  right: -9px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);;
+  width: 308px;
+  height: 308px;
+  border-radius: 100%;
+
+}
+
