@@ -12,6 +12,15 @@
   border-top: $bT;
 }
 
+@mixin lostAndGo($c,$fw,$p,$l,$t,$z){
+  color:$c;
+  font-weight: $fw;
+  position: $p;
+  left: $l;
+  top: $t;
+  z-index: $z;
+}
+
                                                     //GAME
 
 .simon {
@@ -21,16 +30,12 @@
   .wrapper{
     display: flex;
     justify-content: center;
-
     .game {
       display: inline-block;
       position: relative;
       margin-right: 10px;
-
-
       .group {
         display: flex;
-
         .part {
           width: 150px;
           height: 150px;
@@ -47,38 +52,24 @@
 }
 
                                                  //MENU
-.menu{
+.menu {
   margin-left: 10px;
-    .round{
-
-      h3{}
-      button{}
-    }
-  .options{
-
-    .option{
-
-      input{}
-      span{}
+  .round {
+    button {
+      width: 60px;
+      height: 25px;
+      background: #00ecff;
+      border-radius: 10px;
+      border-width: 0;
+      cursor: pointer;
+      font-weight: bold;
+      &:hover {
+        border-width: 2px;
+      }
     }
   }
 }
 
-
-.difficultyLevel{
-  position: absolute;
-  left: 10px;
-  top: 10px;
-
-}
-
-.music{
-  position: absolute;
-  font-weight: bold;
-
-  right: 10px;
-  top: 25px;
-}
 
                                             //SINGLE SELECTORS
 .one{
@@ -94,15 +85,34 @@
   @include simonSetting(#168116, 0 0 100% 0, 0, solid, solid, 0);
 }
 
-.backShadow{
+.backShadow {
   position: absolute;
   z-index: -1;
   right: -9px;
   background: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);;
   width: 308px;
   height: 308px;
   border-radius: 100%;
+}
 
+.difficultyLevel {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.letsGo {
+  @include lostAndGo(#000, bold, absolute, 46%, 47%, 999)
+}
+.lost {
+  @include lostAndGo(#000, bold, relative, 38%, null, 999)
+}
+
+.music {
+  position: absolute;
+  font-weight: bold;
+  right: 10px;
+  top: 25px;
 }
 
