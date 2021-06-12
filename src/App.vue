@@ -106,8 +106,9 @@ export default {
           this.data.startedRound = false
         }
       },
-      declareRoundResult(){
+      declareRoundResult(elem){
         if (!this.matchingSelection) {
+          elem.style.opacity = 45 + '%'
           updateItems(45)
           this.data.lost = true;
           sounds.playGameOverSound()
