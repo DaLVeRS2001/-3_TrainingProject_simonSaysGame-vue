@@ -4,10 +4,6 @@
 ```
 npm install
 ```
----
-permalink: public/index.html
----
-
 ### Compiles and hot-reloads for development
 ```
 npm run serve
