@@ -38,10 +38,6 @@ import AddMusic from "@/components/AddMusic";
 import AddDifficulty from "@/components/AddDifficulty";
 import AddGameSetting from "@/components/AddGameSetting";
 
-import sounds from "@/services/sounds";
-import {getItems, updateItems}from "@/services/items";
-
-
 export default {
   name: "App",
   components: { AddGameSetting, AddDifficulty, AddMusic},
@@ -51,8 +47,13 @@ export default {
       animationTime: null,
       settingMode: null,
       data: this.getModel(),
-      sounds: sounds.getSounds(),
-      gameOverSound: sounds.getGameOverSound()
+      commonSounds: [
+        new Audio(require('./assets/sounds/oneSound.mp3')),
+        new Audio(require('./assets/sounds/twoSound.mp3')),
+        new Audio(require('./assets/sounds/threeSound.mp3')),
+        new Audio(require('./assets/sounds/fourSound.mp3')),
+      ],
+      gameOverSound: [ new Audio(require('./assets/sounds/gameOver.mp3'))]
     };
   },
 
@@ -66,6 +67,7 @@ export default {
      }
     })
 },
+
 
 
   computed:{
@@ -91,6 +93,8 @@ export default {
   },
 
 
+
+
     methods: {
       nextRound() {
         this.data.selectedItems = []
@@ -98,7 +102,6 @@ export default {
         this.data.roundNum += 1
         this.start()
       },
-
       finishRound(idx){
         if (idx === this.randomNums.length - 1) {
           this.letsGo = true
@@ -109,19 +112,18 @@ export default {
       declareRoundResult(elem){
         if (!this.matchingSelection) {
           elem.style.opacity = 45 + '%'
-          updateItems(45)
+          this.updateItems(45)
           this.data.lost = true;
-          sounds.playGameOverSound()
+          this.playGameOverSound()
           setTimeout(()=> {
             this.data = this.getModel();
           }, 1000)
         }else {
-          if (this.trueSelections.length === this.data.roundNum) {
+          if(this.trueSelections.length === this.data.roundNum){
             this.nextRound();
           }
         }
       },
-
       selectItem(e) {
         !this.data.startedRound && this.data.roundNum > 0 ? this.data.canSelect = true : this.data.canSelect = false
         if (this.data.canSelect) {
@@ -133,23 +135,40 @@ export default {
         }
       },
 
+
+      pauseMusic(music, playTime){
+        setTimeout(() => {
+          music.pause()
+          music.currentTime = 0
+        }, playTime)
+      },
+      playGameOverSound(){
+        this.gameOverSound[0].play()
+        this.pauseMusic(this.gameOverSound, 1000)
+      },
+      playSounds(clearNum, playTime) {
+        this.commonSounds[clearNum].play()
+        this.pauseMusic(this.commonSounds[clearNum], playTime)
+      },
+
+
       //1ый интервал сработал 55 раз\2ой 55 раз
       //8-начала цикла + 4-конец цикла = 660-время всего цикла 840-пауза перед циклом 1500 = общее время анимации
       //easy: ((8 × 55) + (4 × 55)=660)+ 840 = 1500
       //medium:  ((4 × 55) + (2 × 55)=330)+ 670 = 1000
       //hard: ((0,24 × 55) + (0,12 × 55)=20)+ 440 = 470 (до 400 не дотянул, наговнокодил)
       start() {
-        const items = getItems()
+        const items = this.getItems()
         this.data.startedRound = true
         this.randomNums.forEach((num, idx) => {
           const clearNum = --num
           const time = this.data.animationDuration += this.animationTime.duration
           setTimeout(() => {
             if (this.settingMode.normal) {
-              sounds.playSounds(clearNum, this.animationTime.music)
+              this.playSounds(clearNum, this.animationTime.music)
               this.platAnimation(clearNum, items, idx)
             }
-            this.settingMode.soundOnly && sounds.playSounds(clearNum, this.animationTime.music)
+            this.settingMode.soundOnly && this.playSounds(clearNum, this.animationTime.music)
             this.settingMode.lightOnly && this.platAnimation(clearNum, items, idx)
             this.finishRound(idx)
           }, time)
@@ -180,11 +199,22 @@ export default {
         }, this.animationTime.endAnim)
       },
 
+
       setDifficulty(difficulty){
         this.animationTime = difficulty
       },
       setSettingMode(mode){
         this.settingMode = mode
+      },
+
+
+      getItems(){
+        return [this.$refs.item1, this.$refs.item2, this.$refs.item3, this.$refs.item4]
+      },
+      updateItems(opacity) {
+        this.getItems().forEach(item => {
+          item.style.opacity = opacity + '%';
+        })
       },
 
       getModel() {
@@ -206,3 +236,4 @@ export default {
 <style lang="sass">
 @import "assets/styles/main"
 </style>
+
