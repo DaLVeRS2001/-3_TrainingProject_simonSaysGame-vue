@@ -1,23 +1,3 @@
-# simon-game-vue
+# Учебный проект #2 на react.js
 
-## Project setup
-```
-npm install
-```
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#### X The project is not an evaluation one. This is a TRAINING project. (Проект не является оценочным. Это УЧЕБНЫЙ проект) X
